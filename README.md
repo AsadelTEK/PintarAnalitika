@@ -1,3 +1,4 @@
+
 # PintarAnalitika: Sistem Analitik Bisnis
 
 PintarAnalitika adalah sebuah aplikasi web berbasis **CodeIgniter** yang dirancang untuk membantu pengguna dalam mengelola dan menganalisis data bisnis. Aplikasi ini mendukung berbagai fungsi seperti input data bisnis, visualisasi laporan, dan analisis data untuk membantu pengambilan keputusan.
@@ -13,7 +14,7 @@ PintarAnalitika adalah sebuah aplikasi web berbasis **CodeIgniter** yang diranca
 
 - **Framework**: [CodeIgniter 3.1.11](https://codeigniter.com/)
 - **Frontend**: [Bootstrap 5.1](https://getbootstrap.com/)
-- **Database**: MySQL
+- **Database**: SQLite3
 - **Bahasa Pemrograman**: PHP
 
 ## Persyaratan
@@ -21,7 +22,7 @@ PintarAnalitika adalah sebuah aplikasi web berbasis **CodeIgniter** yang diranca
 Sebelum memulai, pastikan Anda memiliki perangkat lunak berikut:
 
 - **PHP** >= 7.2
-- **MySQL** atau **MariaDB**
+- **SQLite3**
 - **Apache** (disarankan menggunakan XAMPP atau LAMP)
 - **Composer** (opsional, untuk mengelola dependensi)
 
@@ -37,52 +38,27 @@ cd pintar_analitika
 ```
 
 ### 2. Unduh dan Setup CodeIgniter & Bootstrap
-Jalankan file bash `setup_pintar_analitika.sh` untuk menyiapkan aplikasi. Ini akan mengunduh CodeIgniter, Bootstrap, dan mengonfigurasi proyek secara otomatis.
+Jalankan file bash `setup_pintar_analitika_sqlite.sh` untuk menyiapkan aplikasi. Ini akan mengunduh CodeIgniter, Bootstrap, dan mengonfigurasi proyek secara otomatis.
 
 ```bash
-bash setup_pintar_analitika.sh
+bash setup_pintar_analitika_sqlite.sh
 ```
 
-### 3. Buat Database
-Buat database di MySQL dengan nama `pintar_analitika`. Anda dapat menggunakan phpMyAdmin atau MySQL command line untuk membuatnya:
+### 3. Konfigurasi Database
+Aplikasi ini menggunakan SQLite sebagai basis data. Tidak perlu membuat database secara manual, tetapi pastikan bahwa file database (`pintar_analitika.db`) ada di dalam direktori `application/database/`. Anda dapat membuat struktur tabel menggunakan SQLite3 atau alat manajemen SQLite.
+
+Contoh tabel `business_data`:
 ```sql
-CREATE DATABASE pintar_analitika;
-```
-
-### 4. Import Struktur Database
-Import file SQL ke dalam database Anda untuk menghasilkan tabel yang diperlukan:
-```bash
-mysql -u root -p pintar_analitika < database/pintar_analitika.sql
-```
-
-### 5. Konfigurasi Database
-Buka file `application/config/database.php` dan sesuaikan pengaturan MySQL sesuai dengan sistem Anda (username, password, database name).
-
-```php
-$db['default'] = array(
-    'dsn'   => '',
-    'hostname' => 'localhost',
-    'username' => 'root',
-    'password' => '',
-    'database' => 'pintar_analitika',
-    'dbdriver' => 'mysqli',
-    'dbprefix' => '',
-    'pconnect' => FALSE,
-    'db_debug' => (ENVIRONMENT !== 'production'),
-    'cache_on' => FALSE,
-    'cachedir' => '',
-    'char_set' => 'utf8',
-    'dbcollat' => 'utf8_general_ci',
-    'swap_pre' => '',
-    'encrypt' => FALSE,
-    'compress' => FALSE,
-    'stricton' => FALSE,
-    'failover' => array(),
-    'save_queries' => TRUE
+CREATE TABLE business_data (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    data_type TEXT,
+    value REAL,
+    date TEXT,
+    user_id INTEGER
 );
 ```
 
-### 6. Jalankan Aplikasi
+### 4. Jalankan Aplikasi
 Buka browser dan akses aplikasi melalui `http://localhost/pintar_analitika/`.
 
 Jika semua langkah di atas berhasil, Anda akan melihat halaman utama aplikasi PintarAnalitika.
@@ -116,6 +92,7 @@ Untuk memasukkan data bisnis (seperti penjualan atau inventaris):
 │   ├── /views             # View untuk halaman web
 │   │   ├── /data          # View untuk data bisnis
 │   │   └── /public        # Asset publik (CSS, JS)
+│   ├── /database          # Direktori untuk file SQLite database
 │
 ├── /system                # Sistem utama CodeIgniter
 ├── /public                # Akses file public
@@ -134,4 +111,3 @@ Kami menyambut kontribusi dari siapa pun. Jika Anda ingin berkontribusi, silakan
 ## Lisensi
 
 Proyek ini dilisensikan di bawah **MIT License** - lihat file [LICENSE](LICENSE) untuk detail lebih lanjut.
-
